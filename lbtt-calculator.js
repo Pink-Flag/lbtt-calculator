@@ -1,23 +1,31 @@
 const lbttCalculator = (price) => {
   let taxResult = 0;
 
+  const thresholds = [
+    { threshold: 145000, tax: 0.02 },
+    { threshold: 250000, tax: 0.05 },
+    { threshold: 325000, tax: 0.1 },
+    { threshold: 750000, tax: 0.12 },
+  ];
+
   while (price > 145000) {
-    if (price > 750000) {
-      taxResult += (price - 750000) * 0.12;
-      price = 750000;
-    } else if (price > 325000) {
-      taxResult += (price - 325000) * 0.1;
-      price = 325000;
-    } else if (price > 250000) {
-      taxResult += (price - 250000) * 0.05;
-      price = 250000;
-    } else if (price > 145000) {
-      taxResult += (price - 145000) * 0.02;
-      price = 145000;
+    if (price > thresholds[3].threshold) {
+      taxResult += (price - thresholds[3].threshold) * thresholds[3].tax;
+      price = thresholds[3].threshold;
+    } else if (price > thresholds[2].threshold) {
+      taxResult += (price - thresholds[2].threshold) * thresholds[2].tax;
+      price = thresholds[2].threshold;
+    } else if (price > thresholds[1].threshold) {
+      taxResult += (price - thresholds[1].threshold) * thresholds[1].tax;
+      price = thresholds[1].threshold;
+    } else if (price > thresholds[0].threshold) {
+      taxResult += (price - thresholds[0].threshold) * thresholds[0].tax;
+      price = thresholds[0].threshold;
     }
   }
-  return Math.floor(taxResult);
+
+  const roundedResult = Math.round(taxResult);
+  return roundedResult;
 };
 
 module.exports = lbttCalculator;
-
